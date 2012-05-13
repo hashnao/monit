@@ -1,0 +1,43 @@
+set daemon 120 with start delay 30
+set logfile /var/log/monit/monit.log
+## Sending E-mail, put off the comment below
+set mailserver localhost
+set alert username@domain not {
+checksum
+content
+data
+exec
+gid
+icmp
+invalid
+fsflags
+permission
+pid
+ppid
+size
+timestamp
+#action
+#nonexist
+#timeout
+}
+mail-format {
+from: monit@$HOST
+subject: Monit Alert -- $SERVICE $EVENT --
+message:
+Hostname:       $HOST
+Service:        $SERVICE
+Action:         $ACTION
+Date/Time:      $DATE
+Info:           $DESCRIPTION
+}
+set idfile /var/monit/id
+set statefile /var/monit/state
+set eventqueue
+    basedir /var/monit  
+    slots 100           
+set httpd port 2812 and
+    allow localhost 
+    allow 192.168.0.0/24
+    allow admin:monit      
+include /etc/monit.d/*.conf
+

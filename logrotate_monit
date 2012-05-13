@@ -1,0 +1,10 @@
+/var/log/monit/*.log {
+  missingok
+  notifempty
+  rotate 12
+  weekly
+  compress
+  postrotate
+    /usr/bin/monit quit  
+  endscript
+}
